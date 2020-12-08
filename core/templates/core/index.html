@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <h2>Welcome </h2>
+    <hr>
+    <select class="custom-select my-5" id="inputGroupSelect01">
+    <option selected>Choose...</option>
+    {% for sheet in sheets %}
+        <option value="{{ sheet.id }}">{{ sheet.name }}</option>
+    {% empty %}
+        <option>You don't  have any sheet yet</option>
+    {% endfor %}
+  </select>
+
+  <div id="output"></div>
+
+  <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('select').onchange = function()  {
+            fetch(`http://127.0.0.1:8000/sheets/${this.value}`)
+            .then(response => response.json())
+            .then(data => {
+
+                const output = document.querySelector('#output');
+                let draw = `
+                    <table class="table mt-4">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">#</th>
+                `;
+
+                data.forEach(col => {
+                    draw += `<th scope="col">${col}</th>`;
+                });
+
+                draw += `
+                    </tr>
+                    </thead>
+                    </table>
+                `;
+
+                output.innerHTML = draw;
+            });
+
+        }
+      })
+  </script>
+{% endblock %}
