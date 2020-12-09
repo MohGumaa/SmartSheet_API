@@ -17,21 +17,28 @@
   <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('select').onchange = function()  {
+
+            // Check if sheet select
+
             fetch(`http://127.0.0.1:8000/sheets/${this.value}`)
             .then(response => response.json())
             .then(data => {
-
                 const output = document.querySelector('#output');
                 let draw = `
                     <table class="table mt-4">
                       <thead class="thead-dark">
                         <tr>
-                          <th scope="col">#</th>
                 `;
 
-                data.forEach(col => {
-                    draw += `<th scope="col">${col}</th>`;
-                });
+                // Draw columns
+                for (const [key, value] of Object.entries(data.column_map)) {
+                  draw += `<th scope="col">${key}</th>`
+                };
+
+                // Draw rows with cells value
+                data.rows.forEach((cell, index) => {
+                  console.log(cell, index)
+                })
 
                 draw += `
                     </tr>
@@ -40,7 +47,8 @@
                 `;
 
                 output.innerHTML = draw;
-            });
+                console.log(data)
+            }).catch(error => console.log(`error: catch`))
 
         }
       })

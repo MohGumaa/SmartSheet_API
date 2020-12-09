@@ -21,6 +21,11 @@ def index(request):
 
 def view_sheet(request, id):
     sheet = user.Sheets.get_sheet(id)
-    cols = [col.title for col in sheet.columns]
-    print(cols)
-    return JsonResponse(cols,safe=False)
+    column_map = {column.title : column.id for column in sheet.columns}
+
+    # Get cells values
+    # for row in sheet.rows:
+        # cells = [row.get_column(col_id).value for col_id in column_map.values()]
+    print([row.id for row in sheet.rows])
+
+    return JsonResponse({"column_map": column_map, "rows": 0},safe=False)
