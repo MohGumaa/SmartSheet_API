@@ -23,9 +23,11 @@ def view_sheet(request, id):
     sheet = user.Sheets.get_sheet(id)
     column_map = {column.title : column.id for column in sheet.columns}
 
+    data = []
     # Get cells values
-    # for row in sheet.rows:
-        # cells = [row.get_column(col_id).value for col_id in column_map.values()]
-    print([row.id for row in sheet.rows])
+    for row in sheet.rows:
+        cells = [row.get_column(col_id).value for col_id in column_map.values()]
+        print(cells)
+        data.append(cells)
 
-    return JsonResponse({"column_map": column_map, "rows": 0},safe=False)
+    return JsonResponse({"column_map": column_map, "rows": data},safe=False)
