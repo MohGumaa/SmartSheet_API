@@ -25,8 +25,7 @@
             .then(data => {
                 const output = document.querySelector('#output');
                 let draw = `
-                    <table class="table mt-4">
-                      <thead class="thead-dark">
+                    <table class="table table-striped">
                         <tr>
                         <th scope="col">No</th>
                 `;
@@ -37,8 +36,6 @@
                 };
 
                 draw += `</tr>
-                </thead>
-                <tbody>
                 `;
 
                 // Draw rows with cells value
@@ -50,9 +47,7 @@
                   draw += `</tr>`;
                 })
 
-                draw += `</tbody>
-                    </table>
-                `;
+                draw += `</table>`;
 
                 output.innerHTML = draw;
             }).catch(error => console.log(`error: catch`))
