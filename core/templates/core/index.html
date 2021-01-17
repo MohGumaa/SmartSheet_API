@@ -3,4 +3,15 @@
 {% block content %}
     <h2>Welcome: <strong>{{ user_profile.account.name }}</strong></h2>
     <hr>
+    <select class="custom-select my-5" id="inputGroupSelect01">
+        <option selected>Choose...</option>
+        {% for sheet in sheets %}
+            <option value="{{ sheet.id }}">{{ sheet.name }}</option>
+        {% empty %}
+            <option>You don't  have any sheet yet</option>
+        {% endfor %}
+    </select>
+
+    <div id="output"></div>
+
 {% endblock %}
