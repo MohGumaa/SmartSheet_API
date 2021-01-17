@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-    <h2>Hello, World </h2>
+    <h2>Welcome: <strong>{{ user_profile.account.name }}</strong> </h2>
     <hr>
     <select class="custom-select my-5" id="inputGroupSelect01">
     <option selected>Choose...</option>
@@ -25,9 +25,10 @@
             .then(data => {
                 const output = document.querySelector('#output');
                 let draw = `
-                    <table class="table table-striped">
-                        <tr>
-                        <th scope="col">No</th>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">No</th>
                 `;
 
                 // Draw columns
@@ -36,15 +37,20 @@
                 };
 
                 draw += `</tr>
+                </thead>
                 `;
 
                 // Draw rows with cells value
                 data.rows.forEach((row, index) => {
-                  draw += `<tr>
-                  <td>${index + 1}</td>
+                  draw += `<tbody>
+                  <tr>
+                    <td>${index + 1}</td>
                   `;
                   row.forEach(cell => draw += `<td>${cell}</td>`);
-                  draw += `</tr>`;
+                  draw += `
+                  </tr>
+                  </tbody>
+                  `;
                 })
 
                 draw += `</table>`;
