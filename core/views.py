@@ -9,8 +9,12 @@ user =  smartsheet.Smartsheet(config('API_KEY'))
 def index(request):
     user_profile = user.Users.get_current_user()
 
+    # Get all sheets
+    sheets = user.Sheets.list_sheets(include="attahments,source", include_all=True).data
+
     context = {
         'user_profile': user_profile,
+        'sheets': sheets,
     }
 
     return render(request, 'core/index.html', context)
