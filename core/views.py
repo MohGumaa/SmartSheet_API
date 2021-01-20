@@ -22,19 +22,13 @@ def index(request):
 
 def view_sheet(request, id):
     sheet = user.Sheets.get_sheet(id)
-    column_map = {column.title : column.id for column in sheet.columns}
+    column_map = {column.title : column.id for column in sheet.columns if column.title == 'Supplier Name' or column.title == 'Total'}
+
     data = []
 
     # Get cells values
     for row in sheet.rows:
         cells = [row.get_column(col_id).value for col_id in column_map.values()]
         data.append(cells)
-
-    # Get all Task column value
-    for row in sheet.rows:
-        for col_title, col_id in column_map.items():
-            if col_title == 'Task':
-                print(row.get_column(col_id).display_value)
-
 
     return JsonResponse({"column_map": column_map, "rows": data},safe=False)
