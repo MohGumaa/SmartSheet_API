@@ -17,43 +17,50 @@
   <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('select').onchange = function()  {
-
             // Check if sheet select
 
             fetch(`http://127.0.0.1:8000/sheets/${this.value}`)
             .then(response => response.json())
             .then(data => {
+
                 const output = document.querySelector('#output');
-                let draw = `
+                let draw;
+
+                // Check if their data or not
+                if (data.rows.length > 1){
+                    draw = `
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">No</th>
-                `;
+                    `;
 
-                // Draw columns
-                for (const [key, value] of Object.entries(data.column_map)) {
-                  draw += `<th scope="col">${key}</th>`
-                };
+                    // Draw columns
+                    for (const [key, value] of Object.entries(data.column_map)) {
+                      draw += `<th scope="col">${key}</th>`
+                    };
 
-                draw += `</tr>
-                </thead>
-                `;
+                    draw += `</tr>
+                    </thead>
+                    `;
 
-                // Draw rows with cells value
-                data.rows.forEach((row, index) => {
-                  draw += `<tbody>
-                  <tr>
-                    <td>${index + 1}</td>
-                  `;
-                  row.forEach(cell => draw += `<td>${cell}</td>`);
-                  draw += `
-                  </tr>
-                  </tbody>
-                  `;
-                })
+                    // Draw rows with cells value
+                    data.rows.forEach((row, index) => {
+                      draw += `<tbody>
+                      <tr>
+                        <td>${index + 1}</td>
+                      `;
+                      row.forEach(cell => draw += `<td>${cell}</td>`);
+                      draw += `
+                      </tr>
+                      </tbody>
+                      `;
+                    })
 
-                draw += `</table>`;
+                    draw += `</table>`;
+                } else {
+                    draw = "<h1>No Data To show</h1>";
+                }
 
                 output.innerHTML = draw;
             }).catch(error => console.log(`error: catch`))
